@@ -92,3 +92,34 @@ input { background-color: var(--bg-input); color: var(--text-main); }
 .team-info { display: flex; align-items: center; gap: 6px; flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 500;}
 .tbd { color: #888; font-style: italic; font-weight: normal;}
 .ronda-header { text-align: center; font-size: 0.75em; color: #777; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;}
+
+/* --- NUEVOS ESTILOS PARA EXPORTAR EL BRACKET --- */
+
+/* Color del botón de descarga */
+.btn-exportar { 
+    background-color: #6f42c1; /* Un morado elegante */
+}
+
+/* Contenedor del logo */
+.bracket-logo-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* El logo por defecto está oculto en la página web */
+.fifa-logo-render {
+    width: 160px;
+    height: auto;
+    display: none; 
+}
+
+/* Cuando Javascript añade esta clase para tomar la foto, el logo se vuelve visible */
+.modo-captura .fifa-logo-render {
+    display: inline-block; 
+}
+
+/* Ajuste de fondo para asegurar que la imagen exportada no salga transparente */
+.modo-captura {
+    background-color: var(--bg-card);
+    padding: 30px;
+}
