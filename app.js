@@ -302,6 +302,8 @@ function procesarAvanceLlave(ronda, match) {
         let thirdMatch = bracket.Tercero[0];
         if (match.isEq1) thirdMatch.eq1 = perdedor; else thirdMatch.eq2 = perdedor;
     }
+}
+
 function renderizarGrupos() {
     let htmlTotal = "";
     for (let g in estadoGrupales) {
@@ -376,6 +378,7 @@ function renderizarGrupos() {
     }
     document.getElementById("contenedor-grupos").innerHTML = htmlTotal;
 }
+
 function renderizarTerceros() {
     if (todosLosTerceros.length === 0) return;
     let html = `<table><tr><th>Pos</th><th>Grupo</th><th style="text-align:left">Equipo</th><th>Pts</th><th>DG</th><th>GF</th><th>FP</th><th>Rank</th></tr>`;
@@ -398,12 +401,12 @@ function generarColumnaBracket(rondaName, matches, titulo) {
         html += `
         <div class="match-card">
             <div class="match-team">
-                <div class="team-info ${cls1}">${getFlag(m.eq1)} <span>${m.eq1 || '---'}</span></div>
+                <div class="team-info ${cls1}">${getFlag(m.eq1)} <span title="${m.eq1 || ''}">${getFifaCode(m.eq1) || '---'}</span></div>
                 <input type="number" class="penal-input" style="${penStyles}" min="0" value="${m.p1 !== null ? m.p1 : ''}" onchange="actualizarPenal('${rondaName}',${m.id},true,this.value)" placeholder="P">
                 <input type="number" class="goles-input" min="0" value="${m.g1 !== null ? m.g1 : ''}" onchange="actualizarBracket('${rondaName}',${m.id},true,this.value)" ${!m.eq1 ? 'disabled' : ''}>
             </div>
             <div class="match-team">
-                <div class="team-info ${cls2}">${getFlag(m.eq2)} <span>${m.eq2 || '---'}</span></div>
+                <div class="team-info ${cls2}">${getFlag(m.eq2)} <span title="${m.eq2 || ''}">${getFifaCode(m.eq2) || '---'}</span></div>
                 <input type="number" class="penal-input" style="${penStyles}" min="0" value="${m.p2 !== null ? m.p2 : ''}" onchange="actualizarPenal('${rondaName}',${m.id},false,this.value)" placeholder="P">
                 <input type="number" class="goles-input" min="0" value="${m.g2 !== null ? m.g2 : ''}" onchange="actualizarBracket('${rondaName}',${m.id},false,this.value)" ${!m.eq2 ? 'disabled' : ''}>
             </div>
@@ -411,6 +414,7 @@ function generarColumnaBracket(rondaName, matches, titulo) {
     });
     html += `</div>`; return html;
 }
+
 function renderizarBracket() {
     let html = "";
     
@@ -431,14 +435,14 @@ function renderizarBracket() {
     let centerHtml = `<div class="bracket-center">
         <div><div class="center-title">FINAL</div>
             <div class="match-card">
-                <div class="match-team"><div class="team-info ${!f.eq1 ? 'tbd' : ''}">${getFlag(f.eq1)} <span>${f.eq1 || '---'}</span></div><input type="number" class="penal-input" style="${penStylesF}" min="0" value="${f.p1 !== null ? f.p1 : ''}" onchange="actualizarPenal('F',${f.id},true,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${f.g1 !== null ? f.g1 : ''}" onchange="actualizarBracket('F',${f.id},true,this.value)" ${!f.eq1 ? 'disabled' : ''}></div>
-                <div class="match-team"><div class="team-info ${!f.eq2 ? 'tbd' : ''}">${getFlag(f.eq2)} <span>${f.eq2 || '---'}</span></div><input type="number" class="penal-input" style="${penStylesF}" min="0" value="${f.p2 !== null ? f.p2 : ''}" onchange="actualizarPenal('F',${f.id},false,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${f.g2 !== null ? f.g2 : ''}" onchange="actualizarBracket('F',${f.id},false,this.value)" ${!f.eq2 ? 'disabled' : ''}></div>
+                <div class="match-team"><div class="team-info ${!f.eq1 ? 'tbd' : ''}">${getFlag(f.eq1)} <span title="${f.eq1 || ''}">${getFifaCode(f.eq1) || '---'}</span></div><input type="number" class="penal-input" style="${penStylesF}" min="0" value="${f.p1 !== null ? f.p1 : ''}" onchange="actualizarPenal('F',${f.id},true,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${f.g1 !== null ? f.g1 : ''}" onchange="actualizarBracket('F',${f.id},true,this.value)" ${!f.eq1 ? 'disabled' : ''}></div>
+                <div class="match-team"><div class="team-info ${!f.eq2 ? 'tbd' : ''}">${getFlag(f.eq2)} <span title="${f.eq2 || ''}">${getFifaCode(f.eq2) || '---'}</span></div><input type="number" class="penal-input" style="${penStylesF}" min="0" value="${f.p2 !== null ? f.p2 : ''}" onchange="actualizarPenal('F',${f.id},false,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${f.g2 !== null ? f.g2 : ''}" onchange="actualizarBracket('F',${f.id},false,this.value)" ${!f.eq2 ? 'disabled' : ''}></div>
             </div>
         </div>
         <div><div class="center-title">3er Puesto</div>
             <div class="match-card">
-                <div class="match-team"><div class="team-info ${!t.eq1 ? 'tbd' : ''}">${getFlag(t.eq1)} <span>${t.eq1 || '---'}</span></div><input type="number" class="penal-input" style="${penStylesT}" min="0" value="${t.p1 !== null ? t.p1 : ''}" onchange="actualizarPenal('Tercero',${t.id},true,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${t.g1 !== null ? t.g1 : ''}" onchange="actualizarBracket('Tercero',${t.id},true,this.value)" ${!t.eq1 ? 'disabled' : ''}></div>
-                <div class="match-team"><div class="team-info ${!t.eq2 ? 'tbd' : ''}">${getFlag(t.eq2)} <span>${t.eq2 || '---'}</span></div><input type="number" class="penal-input" style="${penStylesT}" min="0" value="${t.p2 !== null ? t.p2 : ''}" onchange="actualizarPenal('Tercero',${t.id},false,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${t.g2 !== null ? t.g2 : ''}" onchange="actualizarBracket('Tercero',${t.id},false,this.value)" ${!t.eq2 ? 'disabled' : ''}></div>
+                <div class="match-team"><div class="team-info ${!t.eq1 ? 'tbd' : ''}">${getFlag(t.eq1)} <span title="${t.eq1 || ''}">${getFifaCode(t.eq1) || '---'}</span></div><input type="number" class="penal-input" style="${penStylesT}" min="0" value="${t.p1 !== null ? t.p1 : ''}" onchange="actualizarPenal('Tercero',${t.id},true,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${t.g1 !== null ? t.g1 : ''}" onchange="actualizarBracket('Tercero',${t.id},true,this.value)" ${!t.eq1 ? 'disabled' : ''}></div>
+                <div class="match-team"><div class="team-info ${!t.eq2 ? 'tbd' : ''}">${getFlag(t.eq2)} <span title="${t.eq2 || ''}">${getFifaCode(t.eq2) || '---'}</span></div><input type="number" class="penal-input" style="${penStylesT}" min="0" value="${t.p2 !== null ? t.p2 : ''}" onchange="actualizarPenal('Tercero',${t.id},false,this.value)" placeholder="P"><input type="number" class="goles-input" min="0" value="${t.g2 !== null ? t.g2 : ''}" onchange="actualizarBracket('Tercero',${t.id},false,this.value)" ${!t.eq2 ? 'disabled' : ''}></div>
             </div>
         </div>
     </div>`;
