@@ -542,9 +542,3 @@ const syncUI = {
         esperarApp();
     }
 })();
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", esperarApp);
-    } else {
-        esperarApp();
-    }
-})();
