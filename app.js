@@ -373,32 +373,16 @@ function renderizarTerceros() {
     document.getElementById("contenedor-terceros").innerHTML = html;
 }
 
-function generarColumnaBracket(rondaName, matches, titulo) {
-    let html = `<div class="bracket-col">`;
-    if(titulo) html += `<div class="ronda-header">${titulo}</div>`;
-    matches.forEach(m => {
-        let cls1 = m.eq1 ? "" : "tbd"; let cls2 = m.eq2 ? "" : "tbd";
-        let isTie = m.g1 !== null && m.g2 !== null && m.g1 === m.g2;
-        let penStyles = isTie ? "" : "display: none;";
-        html += `
-        <div class="match-card">
-            <div class="match-team">
-                <div class="team-info ${cls1}">${getFlag(m.eq1)} <span>${m.eq1 || '---'}</span></div>
-                <input type="number" class="penal-input" style="${penStyles}" min="0" value="${m.p1 !== null ? m.p1 : ''}" onchange="actualizarPenal('${rondaName}',${m.id},true,this.value)" placeholder="P">
-                <input type="number" class="goles-input" min="0" value="${m.g1 !== null ? m.g1 : ''}" onchange="actualizarBracket('${rondaName}',${m.id},true,this.value)" ${!m.eq1 ? 'disabled' : ''}>
-            </div>
-            <div class="match-team">
-                <div class="team-info ${cls2}">${getFlag(m.eq2)} <span>${m.eq2 || '---'}</span></div>
-                <input type="number" class="penal-input" style="${penStyles}" min="0" value="${m.p2 !== null ? m.p2 : ''}" onchange="actualizarPenal('${rondaName}',${m.id},false,this.value)" placeholder="P">
-                <input type="number" class="goles-input" min="0" value="${m.g2 !== null ? m.g2 : ''}" onchange="actualizarBracket('${rondaName}',${m.id},false,this.value)" ${!m.eq2 ? 'disabled' : ''}>
-            </div>
-        </div>`;
-    });
-    html += `</div>`; return html;
-}
-
 function renderizarBracket() {
     let html = "";
+    
+    // Contenedor del logo de la FIFA
+    let logoHtml = `
+        <div class="bracket-logo-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/2026_FIFA_World_Cup_logo.svg/1200px-2026_FIFA_World_Cup_logo.svg.png" class="fifa-logo-render" alt="FIFA 2026">
+        </div>
+    `;
+
     let leftHtml = `<div class="bracket-half">`;
     leftHtml += generarColumnaBracket('R32', bracket.R32.slice(0, 8), '16avos'); leftHtml += generarColumnaBracket('R16', bracket.R16.slice(0, 4), 'Octavos'); leftHtml += generarColumnaBracket('QF', bracket.QF.slice(0, 2), 'Cuartos'); leftHtml += generarColumnaBracket('SF', bracket.SF.slice(0, 1), 'Semis');
     leftHtml += `</div>`;
@@ -426,6 +410,45 @@ function renderizarBracket() {
     rightHtml += `</div>`;
 
     document.getElementById("contenedor-bracket").innerHTML = leftHtml + centerHtml + rightHtml;
+
+    // Insertar el logo arriba del bracket
+    const wrapper = document.querySelectorAll('.bracket-wrapper')[1]; // Seleccionamos el segundo wrapper (el del bracket)
+    if (wrapper && !document.querySelector('.bracket-logo-container')) {
+        const titulo = wrapper.querySelector('h2');
+        if (titulo) {
+            titulo.insertAdjacentHTML('afterend', logoHtml);
+        }
+    }
+}
+
+function exportarBracket() {
+    const contenedor = document.querySelectorAll('.bracket-wrapper')[1];
+    
+    if (!contenedor) {
+        alert("Primero debes cargar el bracket");
+        return;
+    }
+    
+    // Activamos temporalmente el logo
+    contenedor.classList.add('modo-captura');
+    
+    html2canvas(contenedor, {
+        useCORS: true,
+        scale: 2,
+        backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-card')
+    }).then(canvas => {
+        const enlace = document.createElement('a');
+        enlace.download = 'mi-prediccion-mundial2026.jpg';
+        enlace.href = canvas.toDataURL('image/jpeg', 0.9);
+        enlace.click();
+        
+        // Ocultamos el logo nuevamente
+        contenedor.classList.remove('modo-captura');
+    }).catch(error => {
+        console.error("Error al exportar la imagen:", error);
+        contenedor.classList.remove('modo-captura');
+        alert("Hubo un error al exportar la imagen. Intenta nuevamente.");
+    });
 }
 
 window.onload = inicializar;
