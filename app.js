@@ -22,17 +22,27 @@ async function inicializar() {
         document.getElementById('btnTheme').textContent = "☀️ Modo Claro";
     }
 
-    // --- NUEVA CONEXIÓN PARA EL BOT DE GITHUB ACTIONS ---
-    try {
-        const cacheBuster = new Date().getTime();
-        const respuesta = await fetch(`./datos_fifa.json?t=${cacheBuster}`);
-        if (respuesta.ok) {
-            const datosEnVivo = await respuesta.json();
-            datosGruposV3 = datosEnVivo;
-            console.log("✅ Datos FIFA sincronizados");
+    // 1. Detectar si estamos en un servidor (GitHub) o en local (Tu PC)
+    if (window.location.protocol.includes('http')) {
+        try {
+            const cacheBuster = new Date().getTime();
+            const respuesta = await fetch(`./datos_fifa.json?t=${cacheBuster}`);
+            if (respuesta.ok) {
+                const datosEnVivo = await respuesta.json();
+                datosGruposV3 = datosEnVivo;
+                console.log("✅ Datos FIFA sincronizados");
+            }
+        } catch (error) {
+            console.log("⚠️ Trabajando offline: Usando data.js");
         }
-    } catch (error) {
-        console.log("⚠️ Iniciando offline: Usando default data.js");
+    } else {
+        console.log("💻 Modo Local: Saltando fetch para evitar bloqueos del navegador.");
+    }
+
+    // 2. Validación de seguridad (Por si data.js no está bien enlazado)
+    if (typeof datosGruposV3 === 'undefined') {
+        alert("🚨 Error crítico: No se detecta 'data.js'. Verifica que el archivo exista en la misma carpeta y no tenga extensiones ocultas como 'data.js.txt'.");
+        return;
     }
 
     const datosGuardados = localStorage.getItem('mundial2026_data');
