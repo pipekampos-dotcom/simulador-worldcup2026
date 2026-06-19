@@ -29,7 +29,7 @@ const SYNC_CONFIG = {
     // Umbral de "partido en vivo": si hay partido en progreso, refresca cada 60s
     LIVE_REFRESH_INTERVAL: 60 * 1000,
 
-    BASE_URL: "https://api-football-v1.p.rapidapi.com/v3",
+    BASE_URL: "https://v3.football.api-sports.io",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
