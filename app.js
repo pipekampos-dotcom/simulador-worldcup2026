@@ -394,7 +394,6 @@ function generarColumnaBracket(rondaName, matches, titulo) {
     });
     html += `</div>`; return html;
 }
-
 function renderizarBracket() {
     let html = "";
     
