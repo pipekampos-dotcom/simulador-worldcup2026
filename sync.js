@@ -14,7 +14,7 @@
 const SYNC_CONFIG = {
     // ─────────────────────────────────────────────
     //  IMPORTANTE: Pon aquí tu API key de RapidAPI
-    //  Regístrate gratis en: https://api-sports/api/api-football
+    //  Regístrate gratis en: https://v3.football.api-sports.io
     // ─────────────────────────────────────────────
     API_KEY: "15da44817cc7cd70a26c7ebc51419543",
 
