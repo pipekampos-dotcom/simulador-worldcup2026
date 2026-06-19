@@ -22,7 +22,6 @@ async function inicializar() {
         document.getElementById('btnTheme').textContent = "☀️ Modo Claro";
     }
 
-    // 1. Detectar si estamos en un servidor (GitHub) o en local (Tu PC)
     if (window.location.protocol.includes('http')) {
         try {
             const cacheBuster = new Date().getTime();
@@ -39,9 +38,8 @@ async function inicializar() {
         console.log("💻 Modo Local: Saltando fetch para evitar bloqueos del navegador.");
     }
 
-    // 2. Validación de seguridad (Por si data.js no está bien enlazado)
     if (typeof datosGruposV3 === 'undefined') {
-        alert("🚨 Error crítico: No se detecta 'data.js'. Verifica que el archivo exista en la misma carpeta y no tenga extensiones ocultas como 'data.js.txt'.");
+        alert("🚨 Error crítico: No se detecta 'data.js'. Verifica que el archivo exista en la misma carpeta.");
         return;
     }
 
@@ -108,7 +106,7 @@ function borrarDatos() {
 
 function actualizarPartido(grupo, partidoId, campo, valor) {
     let partido = estadoGrupales[grupo].partidos.find(p => p.id === partidoId);
-    partido[campo] = valor === "" ? (campo.startsWith('g') ? null : 0) : parseInt(valor);
+    partido[campo] = (valor === "" || valor === null) ? (campo.startsWith('g') ? null : 0) : parseInt(valor);
 
     estadoGrupales[grupo].equipos.forEach(e => { 
         e.pts = 0; e.gf = 0; e.gc = 0; e.dg = 0; e.ta = 0; e.tr = 0; e.fairplay = 0; 
@@ -246,14 +244,14 @@ function calcularClasificados() {
 
 function actualizarPenal(ronda, matchId, isEq1, valor) {
     let match = bracket[ronda].find(m => m.id === matchId);
-    match[isEq1 ? 'p1' : 'p2'] = valor === "" ? null : parseInt(valor);
+    match[isEq1 ? 'p1' : 'p2'] = (valor === "" || valor === null) ? null : parseInt(valor);
     procesarAvanceLlave(ronda, match);
     renderizarBracket();
 }
 
 function actualizarBracket(ronda, matchId, isEq1, valor) {
     let match = bracket[ronda].find(m => m.id === matchId);
-    match[isEq1 ? 'g1' : 'g2'] = valor === "" ? null : parseInt(valor);
+    match[isEq1 ? 'g1' : 'g2'] = (valor === "" || valor === null) ? null : parseInt(valor);
     if (match.g1 !== match.g2) { match.p1 = null; match.p2 = null; }
     procesarAvanceLlave(ronda, match);
     renderizarBracket();
@@ -341,17 +339,17 @@ function renderizarGrupos() {
                 <div class="partido">
                     <div class="partido-equipo derecha">
                         <span>${p.eq1}</span> ${getFlag(p.eq1)}
-                        <input type="number" id="tr1-${p.id}" class="tarjeta-input bg-r" min="0" value="${p.tr1||''}" onchange="actualizarPartido('${g}','${p.id}','tr1',this.value)">
-                        <input type="number" id="ta1-${p.id}" class="tarjeta-input bg-y" min="0" value="${p.ta1||''}" onchange="actualizarPartido('${g}','${p.id}','ta1',this.value)">
+                        <input type="number" id="tr1-${p.id}" class="tarjeta-input bg-r" min="0" value="${p.tr1||''}" placeholder="TR" onchange="actualizarPartido('${g}','${p.id}','tr1',this.value)">
+                        <input type="number" id="ta1-${p.id}" class="tarjeta-input bg-y" min="0" value="${p.ta1||''}" placeholder="TA" onchange="actualizarPartido('${g}','${p.id}','ta1',this.value)">
                     </div>
                     <div class="marcador">
-                        <input type="number" id="g1-${p.id}" class="goles-input" min="0" value="${p.g1 !== null ? p.g1 : ''}" onchange="actualizarPartido('${g}','${p.id}','g1',this.value)">
+                        <input type="number" id="g1-${p.id}" class="goles-input" min="0" value="${p.g1 !== null ? p.g1 : ''}" placeholder="0" onchange="actualizarPartido('${g}','${p.id}','g1',this.value)">
                         -
-                        <input type="number" id="g2-${p.id}" class="goles-input" min="0" value="${p.g2 !== null ? p.g2 : ''}" onchange="actualizarPartido('${g}','${p.id}','g2',this.value)">
+                        <input type="number" id="g2-${p.id}" class="goles-input" min="0" value="${p.g2 !== null ? p.g2 : ''}" placeholder="0" onchange="actualizarPartido('${g}','${p.id}','g2',this.value)">
                     </div>
                     <div class="partido-equipo izquierda">
-                        <input type="number" id="ta2-${p.id}" class="tarjeta-input bg-y" min="0" value="${p.ta2||''}" onchange="actualizarPartido('${g}','${p.id}','ta2',this.value)">
-                        <input type="number" id="tr2-${p.id}" class="tarjeta-input bg-r" min="0" value="${p.tr2||''}" onchange="actualizarPartido('${g}','${p.id}','tr2',this.value)">
+                        <input type="number" id="ta2-${p.id}" class="tarjeta-input bg-y" min="0" value="${p.ta2||''}" placeholder="TA" onchange="actualizarPartido('${g}','${p.id}','ta2',this.value)">
+                        <input type="number" id="tr2-${p.id}" class="tarjeta-input bg-r" min="0" value="${p.tr2||''}" placeholder="TR" onchange="actualizarPartido('${g}','${p.id}','tr2',this.value)">
                         ${getFlag(p.eq2)} <span>${p.eq2}</span>
                     </div>
                 </div>`;
@@ -371,6 +369,30 @@ function renderizarTerceros() {
     });
     html += `</table>`;
     document.getElementById("contenedor-terceros").innerHTML = html;
+}
+
+function generarColumnaBracket(rondaName, matches, titulo) {
+    let html = `<div class="bracket-col">`;
+    if(titulo) html += `<div class="ronda-header">${titulo}</div>`;
+    matches.forEach(m => {
+        let cls1 = m.eq1 ? "" : "tbd"; let cls2 = m.eq2 ? "" : "tbd";
+        let isTie = m.g1 !== null && m.g2 !== null && m.g1 === m.g2;
+        let penStyles = isTie ? "" : "display: none;";
+        html += `
+        <div class="match-card">
+            <div class="match-team">
+                <div class="team-info ${cls1}">${getFlag(m.eq1)} <span>${m.eq1 || '---'}</span></div>
+                <input type="number" class="penal-input" style="${penStyles}" min="0" value="${m.p1 !== null ? m.p1 : ''}" onchange="actualizarPenal('${rondaName}',${m.id},true,this.value)" placeholder="P">
+                <input type="number" class="goles-input" min="0" value="${m.g1 !== null ? m.g1 : ''}" onchange="actualizarBracket('${rondaName}',${m.id},true,this.value)" ${!m.eq1 ? 'disabled' : ''}>
+            </div>
+            <div class="match-team">
+                <div class="team-info ${cls2}">${getFlag(m.eq2)} <span>${m.eq2 || '---'}</span></div>
+                <input type="number" class="penal-input" style="${penStyles}" min="0" value="${m.p2 !== null ? m.p2 : ''}" onchange="actualizarPenal('${rondaName}',${m.id},false,this.value)" placeholder="P">
+                <input type="number" class="goles-input" min="0" value="${m.g2 !== null ? m.g2 : ''}" onchange="actualizarBracket('${rondaName}',${m.id},false,this.value)" ${!m.eq2 ? 'disabled' : ''}>
+            </div>
+        </div>`;
+    });
+    html += `</div>`; return html;
 }
 
 function renderizarBracket() {
