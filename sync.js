@@ -14,7 +14,7 @@
 const SYNC_CONFIG = {
     // ─────────────────────────────────────────────
     //  IMPORTANTE: Pon aquí tu API key de RapidAPI
-    //  Regístrate gratis en: https://v3.football.api-sports.io
+    //  Regístrate gratis en: https://dashboard.api-football.com
     // ─────────────────────────────────────────────
     API_KEY: "15da44817cc7cd70a26c7ebc51419543",
 
@@ -70,8 +70,7 @@ async function apiRequest(endpoint, params = {}) {
 
     const response = await fetch(url.toString(), {
         headers: {
-            "x-rapidapi-key":  SYNC_CONFIG.API_KEY,
-            "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+            "x-apisports-key": SYNC_CONFIG.API_KEY,
         },
     });
 
@@ -537,6 +536,12 @@ const syncUI = {
         }
     }
 
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", esperarApp);
+    } else {
+        esperarApp();
+    }
+})();
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", esperarApp);
     } else {
