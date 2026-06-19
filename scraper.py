@@ -1,23 +1,21 @@
 import json
-import datetime
 
-# Aquí es donde en el futuro pondrías la lógica para raspar la web de la FIFA o una API de deportes.
-# Por ahora, inyectamos una actualización simulada para que veas cómo el robot sincroniza los datos.
-
+# Base de datos completa con los 12 grupos para no romper el frontend.
+# El Grupo A tiene el resultado de prueba (México 2 - 1 Sudáfrica).
 datos_actualizados = {
     "A": [ 
-        {"j":1, "e1":"México", "e2":"Sudáfrica", "g1": 2, "g2": 1, "ta1": 1, "tr1": 0, "ta2": 2, "tr2": 0}, 
+        {"j":1, "e1":"México", "e2":"Sudáfrica", "g1": 2, "g2": 1, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, 
         {"j":1, "e1":"Corea del Sur", "e2":"Chequia", "g1": 0, "g2": 0, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, 
         {"j":2, "e1":"Chequia", "e2":"Sudáfrica", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, 
         {"j":2, "e1":"México", "e2":"Corea del Sur", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, 
         {"j":3, "e1":"México", "e2":"Chequia", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, 
         {"j":3, "e1":"Sudáfrica", "e2":"Corea del Sur", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} 
-    ]
-    # Nota: Para el código completo, aquí deberías mantener la estructura de los grupos B hasta el L con valores iniciales nulos.
-}
-
-# Guardar los datos en el archivo JSON que leerá tu app.js
-with open('datos_fifa.json', 'w', encoding='utf-8') as f:
-    json.dump(datos_actualizados, f, ensure_ascii=False, indent=4)
-
-print("✅ datos_fifa.json generado exitosamente.")
+    ],
+    "B": [ {"j":1, "e1":"Canadá", "e2":"Bosnia y Herzegovina", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":1, "e1":"Catar", "e2":"Suiza", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Suiza", "e2":"Bosnia y Herzegovina", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Canadá", "e2":"Catar", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Suiza", "e2":"Canadá", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Bosnia y Herzegovina", "e2":"Catar", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} ],
+    "C": [ {"j":1, "e1":"Brasil", "e2":"Marruecos", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":1, "e1":"Haití", "e2":"Escocia", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Escocia", "e2":"Marruecos", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Brasil", "e2":"Haití", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Escocia", "e2":"Brasil", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Marruecos", "e2":"Haití", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} ],
+    "D": [ {"j":1, "e1":"Estados Unidos", "e2":"Paraguay", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":1, "e1":"Australia", "e2":"Turquía", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Estados Unidos", "e2":"Australia", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Turquía", "e2":"Paraguay", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Turquía", "e2":"Estados Unidos", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Paraguay", "e2":"Australia", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} ],
+    "E": [ {"j":1, "e1":"Alemania", "e2":"Curazao", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":1, "e1":"Costa de Marfil", "e2":"Ecuador", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Alemania", "e2":"Costa de Marfil", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Ecuador", "e2":"Curazao", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Curazao", "e2":"Costa de Marfil", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Ecuador", "e2":"Alemania", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} ],
+    "F": [ {"j":1, "e1":"Países Bajos", "e2":"Japón", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":1, "e1":"Suecia", "e2":"Túnez", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Países Bajos", "e2":"Suecia", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Túnez", "e2":"Japón", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Japón", "e2":"Suecia", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Túnez", "e2":"Países Bajos", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} ],
+    "G": [ {"j":1, "e1":"Bélgica", "e2":"Egipto", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":1, "e1":"Irán", "e2":"Nueva Zelanda", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Bélgica", "e2":"Irán", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Nueva Zelanda", "e2":"Egipto", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Egipto", "e2":"Irán", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Nueva Zelanda", "e2":"Bélgica", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} ],
+    "H": [ {"j":1, "e1":"España", "e2":"Cabo Verde", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":1, "e1":"Arabia Saudita", "e2":"Uruguay", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"España", "e2":"Arabia Saudita", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":2, "e1":"Uruguay", "e2":"Cabo Verde", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Cabo Verde", "e2":"Arabia Saudita", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j":3, "e1":"Uruguay", "e2":"España", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0} ],
+    "I": [ {"j":1, "e1":"Francia", "e2":"Senegal", "g1": None, "g2": None, "ta1": 0, "tr1": 0, "ta2": 0, "tr2": 0}, {"j
