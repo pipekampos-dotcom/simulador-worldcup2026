@@ -429,4 +429,3 @@ function renderizarBracket() {
 }
 
 window.onload = inicializar;
-</script>
