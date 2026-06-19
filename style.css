@@ -67,9 +67,13 @@ th { background-color: var(--bg-header); font-weight: 600; }
 
 input { background-color: var(--bg-input); color: var(--text-main); }
 .goles-input { width: 25px; text-align: center; border: 1px solid var(--border-color); border-radius: 3px; font-weight: bold; padding: 2px; }
-.tarjeta-input { width: 22px; text-align: center; border: 1px solid #aaa; border-radius: 2px; font-size: 0.8em; padding: 1px; }
+.tarjeta-input { width: 32px; text-align: center; border: 1px solid #aaa; border-radius: 2px; font-size: 0.8em; padding: 1px; }
 .bg-y { background-color: #fff9c4; border-color: #fbc02d; color: #000; }
 .bg-r { background-color: #ffcdd2; border-color: #d32f2f; color: #000; }
+
+/* Estilos para las letras TA y TR de fondo */
+.bg-y::placeholder { color: #856404; font-weight: bold; opacity: 0.6; }
+.bg-r::placeholder { color: #721c24; font-weight: bold; opacity: 0.6; }
 
 .penal-input { width: 22px; text-align: center; border: 1px dashed var(--color-primary); background-color: rgba(0, 86, 179, 0.1); border-radius: 3px; font-size: 0.85em; padding: 2px; color: var(--color-primary); font-weight: bold; margin: 0 4px; }
 .dark-mode .penal-input { background-color: rgba(77, 163, 255, 0.1); border-color: #4da3ff; color: #4da3ff; }
