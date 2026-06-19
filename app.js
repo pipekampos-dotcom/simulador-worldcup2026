@@ -1,3 +1,23 @@
+const codigosFIFA = {
+    "México": "MEX", "Sudáfrica": "RSA", "Corea del Sur": "KOR", "Chequia": "CZE",
+    "Canadá": "CAN", "Bosnia y Herzegovina": "BIH", "Catar": "QAT", "Suiza": "SUI",
+    "Brasil": "BRA", "Marruecos": "MAR", "Haití": "HAI", "Escocia": "SCO",
+    "Estados Unidos": "USA", "Paraguay": "PAR", "Australia": "AUS", "Turquía": "TUR",
+    "Alemania": "GER", "Curazao": "CUW", "Costa de Marfil": "CIV", "Ecuador": "ECU",
+    "Países Bajos": "NED", "Japón": "JPN", "Suecia": "SWE", "Túnez": "TUN",
+    "Bélgica": "BEL", "Egipto": "EGY", "Irán": "IRN", "Nueva Zelanda": "NZL",
+    "España": "ESP", "Cabo Verde": "CPV", "Arabia Saudita": "KSA", "Uruguay": "URU",
+    "Francia": "FRA", "Senegal": "SEN", "Irak": "IRQ", "Noruega": "NOR",
+    "Argentina": "ARG", "Argelia": "ALG", "Austria": "AUT", "Jordania": "JOR",
+    "Portugal": "POR", "República Democrática del Congo": "COD", "Colombia": "COL", "Uzbekistán": "UZB",
+    "Inglaterra": "ENG", "Croacia": "CRO", "Ghana": "GHA", "Panamá": "PAN"
+};
+
+function getFifaCode(nombre) {
+    if (!nombre) return "";
+    return codigosFIFA[nombre] || nombre.substring(0, 3).toUpperCase();
+}
+
 let estadoGrupales = {};
 let todosLosTerceros = []; 
 let mejoresTercerosOficiales = []; 
@@ -282,8 +302,6 @@ function procesarAvanceLlave(ronda, match) {
         let thirdMatch = bracket.Tercero[0];
         if (match.isEq1) thirdMatch.eq1 = perdedor; else thirdMatch.eq2 = perdedor;
     }
-}
-
 function renderizarGrupos() {
     let htmlTotal = "";
     for (let g in estadoGrupales) {
@@ -328,7 +346,7 @@ function renderizarGrupos() {
                 let msg = `Desempate por ${d.criterio}: ${d.valorGanador} vs ${d.valorRival} — supera a ${d.rival}`;
                 iconHtml = `<span class="info-tooltip" onclick="alert('${msg}')" title="Desempate resuelto">ⓘ</span>`;
             }
-            tHtml += `<tr ${cl}><td>${i+1}</td><td><div class="equipo-celda">${getFlag(e.name)} <span>${e.name}</span>${iconHtml}</div></td><td><strong>${e.pts}</strong></td><td>${e.dg}</td></tr>`;
+            tHtml += `<tr ${cl}><td>${i+1}</td><td><div class="equipo-celda">${getFlag(e.name)} <span title="${e.name}">${e.name}</span>${iconHtml}</div></td><td><strong>${e.pts}</strong></td><td>${e.dg}</td></tr>`;
         });
 
         tHtml += `</table></div><div class="partidos">`;
@@ -338,7 +356,7 @@ function renderizarGrupos() {
             tHtml += `
                 <div class="partido">
                     <div class="partido-equipo derecha">
-                        <span>${p.eq1}</span> ${getFlag(p.eq1)}
+                        <span title="${p.eq1}"><strong>${getFifaCode(p.eq1)}</strong></span> ${getFlag(p.eq1)}
                         <input type="number" id="tr1-${p.id}" class="tarjeta-input bg-r" min="0" value="${p.tr1||''}" placeholder="TR" onchange="actualizarPartido('${g}','${p.id}','tr1',this.value)">
                         <input type="number" id="ta1-${p.id}" class="tarjeta-input bg-y" min="0" value="${p.ta1||''}" placeholder="TA" onchange="actualizarPartido('${g}','${p.id}','ta1',this.value)">
                     </div>
@@ -350,7 +368,7 @@ function renderizarGrupos() {
                     <div class="partido-equipo izquierda">
                         <input type="number" id="ta2-${p.id}" class="tarjeta-input bg-y" min="0" value="${p.ta2||''}" placeholder="TA" onchange="actualizarPartido('${g}','${p.id}','ta2',this.value)">
                         <input type="number" id="tr2-${p.id}" class="tarjeta-input bg-r" min="0" value="${p.tr2||''}" placeholder="TR" onchange="actualizarPartido('${g}','${p.id}','tr2',this.value)">
-                        ${getFlag(p.eq2)} <span>${p.eq2}</span>
+                        ${getFlag(p.eq2)} <span title="${p.eq2}"><strong>${getFifaCode(p.eq2)}</strong></span>
                     </div>
                 </div>`;
         });
@@ -358,7 +376,6 @@ function renderizarGrupos() {
     }
     document.getElementById("contenedor-grupos").innerHTML = htmlTotal;
 }
-
 function renderizarTerceros() {
     if (todosLosTerceros.length === 0) return;
     let html = `<table><tr><th>Pos</th><th>Grupo</th><th style="text-align:left">Equipo</th><th>Pts</th><th>DG</th><th>GF</th><th>FP</th><th>Rank</th></tr>`;
