@@ -1,1 +1,28 @@
+name: Sincronizar Datos FIFA
 
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Se ejecuta automáticamente cada 30 minutos
+
+jobs:
+  actualizar-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar entorno
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Ejecutar script de extracción
+        run: node scraper.js # Tu script que genera el datos_fifa.json
+
+      - name: Guardar cambios en el repositorio
+        run: |
+          git config --local user.email "bot@github.com"
+          git config --local user.name "Sincronizador FIFA"
+          git add datos_fifa.json
+          git commit -m "Actualización automática de resultados" || echo "No hay cambios nuevos"
+          git push
