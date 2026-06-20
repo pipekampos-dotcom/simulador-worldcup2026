@@ -190,16 +190,17 @@ function resolverTerceros(top8terceros, slotsOficiales) {
     // 1. Extraer las letras de los 8 grupos, ordenarlas y unirlas (Ej: "ABCDEFGH")
     let stringGrupos = top8terceros.map(t => t.grupo).sort().join('');
     
-    // 2. Buscar la combinación exacta en la matriz oficial de la FIFA
+    // 2. Buscar la combinación exacta en tu nueva matriz
     let asignacionOficial = matrizFIFA_495[stringGrupos];
     
-    // Si por algún motivo falta una línea en la matriz, evitar que colapse
+    // Prevención de errores: Si olvidaste anotar una combinación en tu archivo matriz_terceros.js
     if (!asignacionOficial) {
         console.error("Combinación no encontrada en la matriz:", stringGrupos);
+        alert("Falta agregar la combinación " + stringGrupos + " en matriz_terceros.js");
         return new Array(slotsOficiales.length).fill(null);
     }
     
-    // 3. Traducir las letras ("A", "B") a los objetos de los equipos
+    // 3. Emparejar a los equipos
     let resultadoFinal = [];
     asignacionOficial.forEach(letraGrupo => {
         let equipo = top8terceros.find(t => t.grupo === letraGrupo);
