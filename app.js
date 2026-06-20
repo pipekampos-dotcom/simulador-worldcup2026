@@ -187,42 +187,26 @@ function actualizarPartido(grupo, partidoId, campo, valor) {
 }
 
 function resolverTerceros(top8terceros, slotsOficiales) {
-    let equipos = [...top8terceros].sort((a, b) => a.grupo.localeCompare(b.grupo));
-    let ordenFifa = [79, 85, 81, 74, 82, 77, 87, 80];
-
-    let slotsEval = slotsOficiales.map((slot, index) => ({
-        slot: slot,
-        originalIndex: index,
-        prioridad: ordenFifa.indexOf(slot.partido)
-    })).sort((a, b) => a.prioridad - b.prioridad);
-
-    let asignacionesEval = new Array(slotsEval.length).fill(null);
-    let usado = new Array(equipos.length).fill(false);
+    // 1. Extraer las letras de los 8 grupos, ordenarlas y unirlas (Ej: "ABCDEFGH")
+    let stringGrupos = top8terceros.map(t => t.grupo).sort().join('');
     
-    function backtrack(idx) {
-        if (idx === slotsEval.length) return true; 
-        let currentSlot = slotsEval[idx].slot;
-        
-        for (let i = 0; i < equipos.length; i++) {
-            if (!usado[i] && currentSlot.grupos3.includes(equipos[i].grupo)) {
-                asignacionesEval[idx] = equipos[i];
-                usado[i] = true;
-                if (backtrack(idx + 1)) return true;
-                usado[i] = false;
-                asignacionesEval[idx] = null;
-            }
-        }
-        return false;
+    // 2. Buscar la combinación exacta en la matriz oficial de la FIFA
+    let asignacionOficial = matrizFIFA_495[stringGrupos];
+    
+    // Si por algún motivo falta una línea en la matriz, evitar que colapse
+    if (!asignacionOficial) {
+        console.error("Combinación no encontrada en la matriz:", stringGrupos);
+        return new Array(slotsOficiales.length).fill(null);
     }
     
-    if (backtrack(0)) {
-        let resultadoFinal = new Array(slotsOficiales.length).fill(null);
-        for(let i=0; i < slotsEval.length; i++) {
-            resultadoFinal[slotsEval[i].originalIndex] = asignacionesEval[i];
-        }
-        return resultadoFinal;
-    }
-    return new Array(slotsOficiales.length).fill(null); 
+    // 3. Traducir las letras ("A", "B") a los objetos de los equipos
+    let resultadoFinal = [];
+    asignacionOficial.forEach(letraGrupo => {
+        let equipo = top8terceros.find(t => t.grupo === letraGrupo);
+        resultadoFinal.push(equipo || null);
+    });
+    
+    return resultadoFinal;
 }
 
 function calcularClasificados() {
