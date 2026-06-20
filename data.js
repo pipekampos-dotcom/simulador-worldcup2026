@@ -20,22 +20,22 @@ let datosGruposV3 = {
 
 const matrizFIFA_R32 = [
     // --- LADO IZQUIERDO ---
-    { partido: 74, tipo: "1v3", g1: "E", grupos3: ["A","B","C","D","F"], reqTercero: true },
-    { partido: 77, tipo: "1v3", g1: "I", grupos3: ["C","D","F","G","H"], reqTercero: true },
+    { partido: 74, tipo: "1v3", g1: "E", reqTercero: true },
+    { partido: 77, tipo: "1v3", g1: "I", reqTercero: true },
     { partido: 73, tipo: "2v2", g1: "A", g2: "B", reqTercero: false },
     { partido: 75, tipo: "1vS", g1: "F", g2: "C", reqTercero: false },
     { partido: 83, tipo: "2v2", g1: "K", g2: "L", reqTercero: false },
     { partido: 84, tipo: "1vS", g1: "H", g2: "J", reqTercero: false },
-    { partido: 81, tipo: "1v3", g1: "D", grupos3: ["B","E","F","I","J"], reqTercero: true },
-    { partido: 82, tipo: "1v3", g1: "G", grupos3: ["A","E","H","I","J"], reqTercero: true },
+    { partido: 81, tipo: "1v3", g1: "D", reqTercero: true },
+    { partido: 82, tipo: "1v3", g1: "G", reqTercero: true },
 
     // --- LADO DERECHO ---
     { partido: 76, tipo: "1vS", g1: "C", g2: "F", reqTercero: false },
     { partido: 78, tipo: "2v2", g1: "E", g2: "I", reqTercero: false },
-    { partido: 79, tipo: "1v3", g1: "A", grupos3: ["C","E","F","H","I"], reqTercero: true },
-    { partido: 80, tipo: "1v3", g1: "L", grupos3: ["E","H","I","J","K"], reqTercero: true },
+    { partido: 79, tipo: "1v3", g1: "A", reqTercero: true },
+    { partido: 80, tipo: "1v3", g1: "L", reqTercero: true },
     { partido: 86, tipo: "1vS", g1: "J", g2: "H", reqTercero: false },
     { partido: 88, tipo: "2v2", g1: "D", g2: "G", reqTercero: false },
-    { partido: 85, tipo: "1v3", g1: "B", grupos3: ["E","F","G","I","J"], reqTercero: true },
-    { partido: 87, tipo: "1v3", g1: "K", grupos3: ["D","E","I","J","L"], reqTercero: true }
+    { partido: 85, tipo: "1v3", g1: "B", reqTercero: true },
+    { partido: 87, tipo: "1v3", g1: "K", reqTercero: true }
 ];
